@@ -111,7 +111,7 @@ def update_order_status(connection):
             print("Invalid input. Please enter a valid order ID.")
     while True:
         new_status = input("Enter new status: (ordered / in transit / successful / failed)").lower()
-        if new_status not in ['ordered','in transit' 'successful', 'failed']:
+        if new_status not in ['ordered','in transit', 'successful', 'failed']:
             print("Invalid status. Please enter a valid status.")
         else: break
 
@@ -559,7 +559,7 @@ def generate_invoice(connection):
     try:
         with connection.cursor() as cursor:
             cursor.execute("""
-                SELECT DeliveryID
+                SELECT DeliveryID, DeliveryEndDate
                 FROM Deliveries 
                 WHERE DeliveryID = %s AND d.Status = 'successful'
                 """, (delivery_id,))
@@ -577,7 +577,7 @@ def generate_invoice(connection):
             print("="*60)
             print(f"{'INVOICE':>30}")
             print()
-            print(f"Delivery ID #: {delivery_id:<20} DATE: {delivery[3]}")
+            print(f"Delivery ID #: {delivery_id:<20} DATE: {delivery[1]}")
             print()
             print(f"BILL TO: HQ")
             print()
